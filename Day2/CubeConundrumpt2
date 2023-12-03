@@ -1,0 +1,40 @@
+validGames = []
+
+
+def getNumColorCubes(color):
+    value = color.strip()
+    digit = True
+    i = 0
+    while digit:
+        if value[i].isdigit():
+            i += 1
+        else:
+            digit = False
+    return value[:i]
+total = 0
+with open('games.txt') as f:
+    for line in f:
+        gameIndex = line.find(':')
+        newLine = line[gameIndex+1:]
+        sets = newLine.split(';')
+        maxGreen = 0
+        maxRed = 0
+        maxBlue = 0
+        
+        for s in sets:
+            value = s.strip()
+            colors = value.split(',')
+            
+            for color in colors:
+                numColorCube = int(getNumColorCubes(color))
+                if 'green' in color:
+                    maxGreen = max(maxGreen, numColorCube)
+                elif 'red' in color:
+                    maxRed = max(maxRed, numColorCube)
+                elif 'blue' in color:
+                    maxBlue = max(maxBlue, numColorCube)
+        power = maxGreen*maxBlue*maxRed
+        total += power
+
+print(total)
+        
